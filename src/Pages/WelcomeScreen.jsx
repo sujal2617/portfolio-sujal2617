@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Github, Globe, User } from 'lucide-react';
+import { Code2, Github, Globe, User, Instagram, Linkedin, Twitter, Youtube, Mail } from 'lucide-react';
+import { SiLeetcode, SiCodechef } from "react-icons/si"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -16,7 +17,7 @@ const TypewriterEffect = ({ text }) => {
       } else {
         clearInterval(timer);
       }
-    }, 260);
+    }, 200);
     
     return () => clearInterval(timer);
   }, [text]);
@@ -36,13 +37,19 @@ const BackgroundEffect = () => (
   </div>
 );
 
-const IconButton = ({ Icon }) => (
-  <div className="relative group hover:scale-110 transition-transform duration-300">
+// Update the IconButton component to accept and use an href prop
+const IconButton = ({ Icon, href }) => (
+  <a 
+    href={href} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="relative group hover:scale-110 transition-transform duration-300"
+  >
     <div className="absolute -inset-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full blur opacity-30 group-hover:opacity-75 transition duration-300" />
     <div className="relative p-2 sm:p-3 bg-black/50 backdrop-blur-sm rounded-full border border-white/10">
       <Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white" />
     </div>
-  </div>
+  </a>
 );
 
 const WelcomeScreen = ({ onLoadingComplete }) => {
@@ -109,9 +116,18 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                 className="flex justify-center gap-3 sm:gap-4 md:gap-8 mb-6 sm:mb-8 md:mb-12"
                 variants={childVariants}
               >
-                {[Code2, User, Github].map((Icon, index) => (
+                {[
+                  { Icon: Mail, href: "mailto:sujalpattewar26@gmail.com" },
+                  { Icon: Code2,href: "https://github.com/sujal2617"}, 
+                  { Icon: User, href: "https://sujalpattewar.me"},
+                  // { Icon: Github, href: "https://github.com/sujal2617" },
+                  // { Icon: Instagram, href: "https://www.instagram.com/sujalp_/" },
+                  // { Icon: Linkedin, href: "https://www.linkedin.com/in/sujal-pattewar-7195a5236/" },
+                  // { Icon: SiCodechef, href: "https://www.codechef.com/users/klu32771" },
+                  // { Icon: SiLeetcode, href: "https://leetcode.com/u/sjl_p_2624/" }
+                ].map(({ Icon, href }, index) => (
                   <div key={index} data-aos="fade-down" data-aos-delay={index * 200}>
-                    <IconButton Icon={Icon} />
+                    <IconButton Icon={Icon} href={href} />
                   </div>
                 ))}
               </motion.div>
@@ -152,7 +168,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                 data-aos-delay="1200"
               >
                 <a
-                  href="https://www.eki.my.id"
+                  href="https://sujalpattewar.me/"
                   className="inline-flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-full relative group hover:scale-105 transition-transform duration-300"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -161,7 +177,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                   <div className="relative flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
                     <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
                     <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                      <TypewriterEffect text="www.eki.my.id" />
+                      <TypewriterEffect text="sujalpattewar.me" />
                     </span>
                   </div>
                 </a>

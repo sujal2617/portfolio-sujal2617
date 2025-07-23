@@ -6,8 +6,8 @@ const TechStackIcon = ({ TechStackIcon, Language }) => {
       <div className="relative">
         <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-0 group-hover:opacity-50 blur transition duration-300"></div>
         <img 
-          src={TechStackIcon} 
-          alt={`${Language} icon`} 
+          src={TechStackIcon}
+          alt={`${Language} technology stack icon`}
           className="relative h-16 w-16 md:h-20 md:w-20 transform transition-transform duration-300"
         />
       </div>

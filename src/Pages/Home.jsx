@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, memo } from "react"
-import { Github, Linkedin, Mail, ExternalLink, Instagram, Sparkles } from "lucide-react"
+import { Github, Linkedin, Mail, ExternalLink,Instagram, Sparkles } from "lucide-react"
+import { SiLeetcode, SiCodechef } from "react-icons/si"
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -25,7 +26,7 @@ const MainTitle = memo(() => (
       <span className="relative inline-block">
         <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-2xl opacity-20"></span>
         <span className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-          Frontend
+          Full Stack
         </span>
       </span>
       <br />
@@ -77,12 +78,14 @@ const SocialLink = memo(({ icon: Icon, link }) => (
 const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
-const WORDS = ["Network & Telecom Student", "Tech Enthusiast"];
+const WORDS = ["Computer Science Student", "Tech Enthusiast"];
 const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
 const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com/EkiZR" },
-  { icon: Linkedin, link: "https://www.linkedin.com/in/ekizr/" },
-  { icon: Instagram, link: "https://www.instagram.com/ekizr._/?hl=id" }
+  { icon: Linkedin, link: "https://www.linkedin.com/in/sujal-pattewar-7195a5236/" },
+  { icon: Github, link: "https://github.com/sujal2617" },
+  { icon: SiLeetcode, link: "https://leetcode.com/u/sjl_p_2624/" },
+  { icon: SiCodechef, link: "https://www.codechef.com/users/klu32771" },
+  { icon: Instagram, link: "https://www.linkedin.com/in/sujal-pattewar-7195a5236/" },
 ];
 
 const Home = () => {
@@ -183,7 +186,7 @@ const Home = () => {
                 <p className="text-base md:text-lg text-gray-400 max-w-xl leading-relaxed font-light"
                   data-aos="fade-up"
                   data-aos-delay="1000">
-                  Menciptakan Website Yang Inovatif, Fungsional, dan User-Friendly untuk Solusi Digital.
+                  Try here
                 </p>
 
                 {/* Tech Stack */}

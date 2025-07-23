@@ -1,82 +1,87 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
+// Navigation bar component
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState("Home");
-    
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // Whether mobile menu is open
+    const [hasScrolled, setHasScrolled] = useState(false); // Whether page has been scrolled
+    const [currentSection, setCurrentSection] = useState("Home"); // Currently active section
+
+    // Navigation items and their section links
     const navItems = [
         { href: "#Home", label: "Home" },
         { href: "#About", label: "About" },
-        { href: "#Portofolio", label: "Portofolio" },
+        { href: "#Portofolio", label: "Portfolio" },
         { href: "#Contact", label: "Contact" },
     ];
 
+    // Detect scroll to update navbar background and active section
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
+            setHasScrolled(window.scrollY > 20);
+
             const sections = navItems.map(item => {
-                const section = document.querySelector(item.href);
-                if (section) {
+                const sectionElement = document.querySelector(item.href);
+                if (sectionElement) {
                     return {
                         id: item.href.replace("#", ""),
-                        offset: section.offsetTop - 550,
-                        height: section.offsetHeight
+                        offset: sectionElement.offsetTop - 550,
+                        height: sectionElement.offsetHeight
                     };
                 }
                 return null;
             }).filter(Boolean);
 
-            const currentPosition = window.scrollY;
-            const active = sections.find(section => 
-                currentPosition >= section.offset && 
-                currentPosition < section.offset + section.height
+            const scrollPosition = window.scrollY;
+
+            const current = sections.find(section =>
+                scrollPosition >= section.offset &&
+                scrollPosition < section.offset + section.height
             );
 
-            if (active) {
-                setActiveSection(active.id);
+            if (current) {
+                setCurrentSection(current.id);
             }
         };
 
         window.addEventListener("scroll", handleScroll);
         handleScroll();
+
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Prevent body scroll when mobile menu is open
     useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-    }, [isOpen]);
+        document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
+    }, [isMenuOpen]);
 
+    // Scroll smoothly to the section and close mobile menu
     const scrollToSection = (e, href) => {
         e.preventDefault();
         const section = document.querySelector(href);
         if (section) {
             const top = section.offsetTop - 100;
             window.scrollTo({
-                top: top,
-                behavior: "smooth"
+                top,
+                behavior: "smooth",
             });
         }
-        setIsOpen(false);
+        setIsMenuOpen(false);
     };
 
     return (
         <nav
-            className={`fixed w-full top-0 z-50 transition-all duration-500 ${
-                isOpen
+            className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+                isMenuOpen
                     ? "bg-[#030014]"
-                    : scrolled
-                    ? "bg-[#030014]/50 backdrop-blur-xl"
-                    : "bg-transparent"
+                    : hasScrolled
+                        ? "bg-[#030014]/50 backdrop-blur-xl"
+                        : "bg-transparent"
             }`}
         >
             <div className="mx-auto px-[5%] sm:px-[5%] lg:px-[10%]">
                 <div className="flex items-center justify-between h-16">
+
                     {/* Logo */}
                     <div className="flex-shrink-0">
                         <a
@@ -84,11 +89,11 @@ const Navbar = () => {
                             onClick={(e) => scrollToSection(e, "#Home")}
                             className="text-xl font-bold bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
                         >
-                            Ekizr
+                            SP
                         </a>
                     </div>
-        
-                    {/* Desktop Navigation */}
+
+                    {/* Desktop navigation links */}
                     <div className="hidden md:block">
                         <div className="ml-8 flex items-center space-x-8">
                             {navItems.map((item) => (
@@ -100,7 +105,7 @@ const Navbar = () => {
                                 >
                                     <span
                                         className={`relative z-10 transition-colors duration-300 ${
-                                            activeSection === item.href.substring(1)
+                                            currentSection === item.href.substring(1)
                                                 ? "bg-gradient-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent font-semibold"
                                                 : "text-[#e2d3fd] group-hover:text-white"
                                         }`}
@@ -108,8 +113,8 @@ const Navbar = () => {
                                         {item.label}
                                     </span>
                                     <span
-                                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] transform origin-left transition-transform duration-300 ${
-                                            activeSection === item.href.substring(1)
+                                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] origin-left transition-transform duration-300 ${
+                                            currentSection === item.href.substring(1)
                                                 ? "scale-x-100"
                                                 : "scale-x-0 group-hover:scale-x-100"
                                         }`}
@@ -118,16 +123,16 @@ const Navbar = () => {
                             ))}
                         </div>
                     </div>
-        
-                    {/* Mobile Menu Button */}
+
+                    {/* Mobile menu button (hamburger or close icon) */}
                     <div className="md:hidden">
                         <button
-                            onClick={() => setIsOpen(!isOpen)}
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className={`relative p-2 text-[#e2d3fd] hover:text-white transition-transform duration-300 ease-in-out transform ${
-                                isOpen ? "rotate-90 scale-125" : "rotate-0 scale-100"
+                                isMenuOpen ? "rotate-90 scale-125" : "rotate-0 scale-100"
                             }`}
                         >
-                            {isOpen ? (
+                            {isMenuOpen ? (
                                 <X className="w-6 h-6" />
                             ) : (
                                 <Menu className="w-6 h-6" />
@@ -136,11 +141,11 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-        
-            {/* Mobile Menu */}
+
+            {/* Mobile menu links */}
             <div
                 className={`md:hidden transition-all duration-300 ease-in-out ${
-                    isOpen
+                    isMenuOpen
                         ? "max-h-screen opacity-100"
                         : "max-h-0 opacity-0 overflow-hidden"
                 }`}
@@ -152,14 +157,14 @@ const Navbar = () => {
                             href={item.href}
                             onClick={(e) => scrollToSection(e, item.href)}
                             className={`block px-4 py-3 text-lg font-medium transition-all duration-300 ease ${
-                                activeSection === item.href.substring(1)
+                                currentSection === item.href.substring(1)
                                     ? "bg-gradient-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent font-semibold"
                                     : "text-[#e2d3fd] hover:text-white"
                             }`}
                             style={{
                                 transitionDelay: `${index * 100}ms`,
-                                transform: isOpen ? "translateX(0)" : "translateX(50px)",
-                                opacity: isOpen ? 1 : 0,
+                                transform: isMenuOpen ? "translateX(0)" : "translateX(50px)",
+                                opacity: isMenuOpen ? 1 : 0,
                             }}
                         >
                             {item.label}
