@@ -100,7 +100,6 @@ export default function FullWidthTabs() {
   useEffect(() => {
     AOS.init({ once: false });
   }, []);
-
   const fetchData = useCallback(async () => {
     try {
       const [projectsResponse, certificatesResponse] = await Promise.all([
